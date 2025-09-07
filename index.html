@@ -1,0 +1,47 @@
+import React, { useState } from "react";
+
+export default function ChainTracker() {
+  const [days, setDays] = useState(Array(30).fill(false));
+
+  const toggleDay = (index) => {
+    setDays((prev) => {
+      const newDays = [...prev];
+      newDays[index] = !newDays[index];
+      return newDays;
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6 flex flex-col items-center">
+      <h1 className="text-2xl font-bold mb-4">Chain Tracker</h1>
+      <p className="mb-6">Complete your habit each day and keep the chain going!</p>
+
+      <div className="grid grid-cols-7 gap-2">
+        {days.map((done, idx) => (
+          <div
+            key={idx}
+            onClick={() => toggleDay(idx)}
+            className={`w-12 h-12 flex items-center justify-center border rounded cursor-pointer ${
+              done ? "bg-green-500 text-white" : "bg-white"
+            }`}
+          >
+            {idx + 1}
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-6">
+        Longest streak:{" "}
+        <strong>
+          {Math.max(
+            ...days
+              .join("")
+              .split("false")
+              .map((s) => s.length)
+          )}
+        </strong>{" "}
+        days
+      </p>
+    </div>
+  );
+}
